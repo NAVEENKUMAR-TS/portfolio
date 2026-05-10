@@ -2,6 +2,9 @@
 import { ReactNode, useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { createPortal } from 'react-dom';
+import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiGit, SiGithub, SiDocker, SiFigma, SiJavascript, SiSupabase } from 'react-icons/si';
+import { FaJava, FaPython } from 'react-icons/fa';
+import { AntigravityIcon } from '../AntigravityIcon';
 
 const CustomCursor = () => {
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
@@ -118,19 +121,20 @@ const PaperSection = ({ id, number, title, children, bgColor = "bg-white", textC
           }}
           transition={{ 
             type: "spring", 
-            stiffness: 100, 
-            damping: 20 
+            stiffness: 50, 
+            damping: 25,
+            mass: 1.2
           }}
           className={`w-full ${bgColor} ${textColor} shadow-[0_60px_120px_-20px_rgba(0,0,0,0.4)] min-h-[140vh] flex flex-col relative overflow-hidden group cursor-none`}
           style={{ transformStyle: "preserve-3d" }}
         >
           {/* Normal Content */}
           <div className="relative z-10 flex flex-col h-full pointer-events-auto">
-          <div className="px-6 md:px-10 py-10 md:py-16 flex justify-between items-center border-b border-black/10 mt-10">
-            <h2 className="text-5xl md:text-9xl font-black leading-none font-sans uppercase">{title}</h2>
+          <div className={`px-6 md:px-10 py-10 md:py-16 flex justify-between items-center border-b ${bgColor === 'bg-white' ? 'border-black/10' : 'border-white/10'} mt-10`}>
+            <h2 className="text-5xl md:text-8xl font-black leading-none font-sans uppercase">{title}</h2>
             <span className="text-2xl md:text-4xl font-bold font-sans opacity-30">{number}</span>
           </div>
-          <div className="flex-1 px-6 md:px-10 py-10 md:py-20">
+          <div className="flex-1 px-6 md:px-10 pt-6 md:pt-10 pb-10 md:pb-20">
             {children}
           </div>
         </div>
@@ -152,17 +156,17 @@ const PaperSection = ({ id, number, title, children, bgColor = "bg-white", textC
           initial={false}
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="absolute inset-0 z-30 pointer-events-none bg-white flex flex-col h-full"
+          className={`absolute inset-0 z-30 pointer-events-none ${bgColor} flex flex-col h-full`}
           style={{
             maskImage: `radial-gradient(circle 400px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
             WebkitMaskImage: `radial-gradient(circle 400px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
           }}
         >
-          <div className="px-6 md:px-10 py-10 md:py-16 flex justify-between items-center border-b border-black/10 mt-10">
-            <h2 className="text-5xl md:text-9xl font-black leading-none font-sans uppercase">{title}</h2>
+          <div className={`px-6 md:px-10 py-10 md:py-16 flex justify-between items-center border-b ${bgColor === 'bg-white' ? 'border-black/10' : 'border-white/10'} mt-10`}>
+            <h2 className="text-5xl md:text-8xl font-black leading-none font-sans uppercase">{title}</h2>
             <span className="text-2xl md:text-4xl font-bold font-sans opacity-30">{number}</span>
           </div>
-          <div className="flex-1 px-6 md:px-10 py-10 md:py-20">
+          <div className="flex-1 px-6 md:px-10 pt-6 md:pt-10 pb-10 md:pb-20">
             {children}
           </div>
         </motion.div>
@@ -228,34 +232,150 @@ export const About = () => (
   </PaperSection>
 );
 
-export const TechStack = () => (
-  <PaperSection id="tech-stack" title="Tech" number="02">
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
-        <div className="space-y-2">
-            <p className="text-xs uppercase tracking-widest opacity-40">Frontend</p>
-            <p className="text-lg font-bold">Next.js, React, TypeScript</p>
+const TechStackContent = () => (
+  <div className="flex flex-col gap-20 text-black">
+    {/* Section Title */}
+    <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tight font-serif leading-none">
+      What I Work With
+    </h3>
+
+    {/* Three Column Grid with Vertical Dividers */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+      {/* Frontend */}
+      <div className="py-8 md:py-0 md:pr-10 border-b md:border-b-0 md:border-r border-black/10">
+        <p className="text-[10px] uppercase tracking-[0.3em] opacity-40 font-sans font-bold mb-6">
+          Frontend
+        </p>
+        <div className="space-y-3">
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiReact /> React</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiJavascript /> JavaScript</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiTypescript /> TypeScript</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiTailwindcss /> TailwindCSS</p>
         </div>
-        <div className="space-y-2">
-            <p className="text-xs uppercase tracking-widest opacity-40">Animation</p>
-            <p className="text-lg font-bold">GSAP, Framer Motion, Lenis</p>
+      </div>
+
+      {/* Backend */}
+      <div className="py-8 md:py-0 md:px-10 border-b md:border-b-0 md:border-r border-black/10">
+        <p className="text-[10px] uppercase tracking-[0.3em] opacity-40 font-sans font-bold mb-6">
+          Backend
+        </p>
+        <div className="space-y-3">
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><FaJava /> Java</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><FaPython /> Python</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiNodedotjs /> Node.js</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiSupabase /> Supabase</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiMongodb /> MongoDB</p>
         </div>
-        <div className="space-y-2">
-            <p className="text-xs uppercase tracking-widest opacity-40">Styling</p>
-            <p className="text-lg font-bold">TailwindCSS, CSS Modules</p>
+      </div>
+
+      {/* Tools */}
+      <div className="py-8 md:py-0 md:pl-10">
+        <p className="text-[10px] uppercase tracking-[0.3em] opacity-40 font-sans font-bold mb-6">
+          Tools
+        </p>
+        <div className="space-y-3">
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiGit /> Git &amp; <SiGithub /> GitHub</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiDocker /> Docker</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><SiFigma /> Figma</p>
+          <p className="text-xl md:text-2xl font-light flex items-center gap-3"><AntigravityIcon /> Antigravity</p>
         </div>
-        <div className="space-y-2">
-            <p className="text-xs uppercase tracking-widest opacity-40">Backend</p>
-            <p className="text-lg font-bold">Node.js, PostgreSQL</p>
-        </div>
+      </div>
     </div>
+  </div>
+);
+
+export const TechStack = () => (
+  <PaperSection id="tech-stack" title="Tech Stack" number="02" bgColor="bg-white" textColor="text-black">
+    <TechStackContent />
   </PaperSection>
 );
 
-export const Projects = () => (
-  <PaperSection id="projects" title="Works" number="03">
-    <div className="h-full flex items-center justify-center border-2 border-dashed border-black/10 rounded-xl min-h-[400px]">
-        <p className="text-xl opacity-30">Projects Showcase Placeholder</p>
+const ProjectsContent = () => {
+  const projects = [
+    {
+      number: "01",
+      title: "URL DETECTOR",
+      description: "A smart web-based tool designed to analyze and detect malicious or suspicious URLs in real time, helping users improve security and identify potential threats efficiently.",
+      tech: ["React", "Node.js", "Python", "MongoDB"],
+      link: "https://github.com/NAVEENKUMAR-TS/url-detector",
+      liveLink: "https://url-detector-backend-5vah.onrender.com/"
+    },
+    {
+      number: "02",
+      title: "SMART CONTROLLER",
+      description: "A cyber-secure smart controller developed for managing grid-connected microgrids, enabling secure real-time monitoring, control, and protection of energy systems against cyber threats and unauthorized access.",
+      tech: ["React", "JavaScript", "Python", "Supabase"],
+      link: "https://github.com/NAVEENKUMAR-TS/smart_controller"
+    }
+  ];
+
+  const getTechIcon = (tech: string) => {
+    switch (tech) {
+      case "React": return <SiReact className="text-sm" />;
+      case "Node.js": return <SiNodedotjs className="text-sm" />;
+      case "Python": return <FaPython className="text-sm" />;
+      case "MongoDB": return <SiMongodb className="text-sm" />;
+      case "JavaScript": return <SiJavascript className="text-sm" />;
+      case "Supabase": return <SiSupabase className="text-sm" />;
+      default: return null;
+    }
+  };
+
+  return (
+    <div className="flex flex-col text-black">
+      {projects.map((project, index) => (
+        <div key={index} className="flex flex-col md:flex-row items-start md:items-center py-10 md:py-16 border-b border-black/10 group">
+          {/* Left: Oversized Number */}
+          <div className="w-full md:w-[15%] mb-4 md:mb-0">
+            <span className="text-6xl md:text-[8vw] font-black leading-none text-black opacity-10 transition-opacity group-hover:opacity-30">{project.number}</span>
+          </div>
+
+          {/* Center: Title & Description */}
+          <div className="w-full md:w-[50%] md:pr-10 mb-6 md:mb-0">
+            <h3 className="text-3xl md:text-[3vw] font-serif font-black uppercase mb-4 leading-none">{project.title}</h3>
+            <p className="text-base md:text-lg opacity-70 leading-relaxed font-light">{project.description}</p>
+          </div>
+
+          {/* Right: Tech & Link */}
+          <div className="w-full md:w-[35%] flex flex-col md:items-end gap-6">
+            <div className="flex flex-wrap md:justify-end gap-3">
+              {project.tech.map((tech, i) => (
+                <span key={i} className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] px-4 py-2 border border-black/20 rounded-full font-bold opacity-80">
+                  {getTechIcon(tech)}
+                  {tech}
+                </span>
+              ))}
+            </div>
+            <div className="flex flex-wrap md:justify-end gap-6 mt-4 md:mt-0">
+              {project.liveLink && (
+                <a 
+                  href={project.liveLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest hover:opacity-50 transition-opacity"
+                >
+                  Live Site ↗
+                </a>
+              )}
+              <a 
+                href={project.link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest hover:opacity-50 transition-opacity"
+              >
+                <SiGithub className="text-lg" /> View GitHub ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
+  );
+};
+
+export const Projects = () => (
+  <PaperSection id="projects" title="Projects" number="03" bgColor="bg-white" textColor="text-black">
+    <ProjectsContent />
   </PaperSection>
 );
 
