@@ -77,7 +77,6 @@ export default function CustomCursor() {
       const timeout = setTimeout(refreshListeners, 1000);
 
       return () => {
-        window.removeExternalEventListener?.('mousemove', handleMouseMove); // Typo protection
         window.removeEventListener('mousemove', handleMouseMove);
         clearTimeout(timeout);
       };
