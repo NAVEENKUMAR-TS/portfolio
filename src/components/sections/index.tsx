@@ -41,8 +41,8 @@ const CustomCursor = () => {
         backgroundColor: isOverPaper ? '#000' : '#fff',
       }}
       transition={{ 
-        x: { type: "spring", stiffness: 500, damping: 28, mass: 0.5 },
-        y: { type: "spring", stiffness: 500, damping: 28, mass: 0.5 },
+        x: { type: "spring", stiffness: 800, damping: 35, mass: 0.2 },
+        y: { type: "spring", stiffness: 800, damping: 35, mass: 0.2 },
         backgroundColor: { duration: 0.3 },
       }}
     />,
@@ -82,15 +82,16 @@ const PaperSection = ({ id, number, title, children, bgColor = "bg-white", textC
   }, [isHovered, globalMousePos]);
   
   return (
-    <section id={id} className="relative min-h-screen py-40 flex flex-col items-center perspective-1000 overflow-visible">
+    <section id={id} className="relative min-h-screen py-40 flex flex-col items-center [perspective:2000px] overflow-visible">
       {/* Outer Floating Container */}
       <motion.div
         animate={{ 
-          y: [0, -30, 0],
-          rotate: [0, 1, 0],
+          y: [0, -80, 0],
+          rotate: [0, 2, 0],
+          x: [0, 10, 0],
         }}
         transition={{ 
-          duration: 5, 
+          duration: 6, 
           repeat: Infinity, 
           ease: "easeInOut" 
         }}
@@ -109,10 +110,10 @@ const PaperSection = ({ id, number, title, children, bgColor = "bg-white", textC
           }}
           onMouseMove={handleMouseMove}
           animate={isHovered ? {
-            rotateX: -(mousePos.y - (container.current?.clientHeight || 0) / 2) / 15,
-            rotateY: (mousePos.x - (container.current?.clientWidth || 0) / 2) / 15,
-            scale: 1.05,
-            z: 100,
+            rotateX: Math.min(Math.max(-(mousePos.y - (container.current?.clientHeight || 0) / 2) / 25, -15), 15),
+            rotateY: Math.min(Math.max((mousePos.x - (container.current?.clientWidth || 0) / 2) / 25, -15), 15),
+            scale: 1.02,
+            z: 50,
           } : { 
             rotateX: 0,
             rotateY: 0,
@@ -121,9 +122,9 @@ const PaperSection = ({ id, number, title, children, bgColor = "bg-white", textC
           }}
           transition={{ 
             type: "spring", 
-            stiffness: 50, 
+            stiffness: 150, 
             damping: 25,
-            mass: 1.2
+            mass: 0.6
           }}
           className={`w-full ${bgColor} ${textColor} shadow-[0_60px_120px_-20px_rgba(0,0,0,0.4)] min-h-[140vh] flex flex-col relative overflow-hidden group cursor-none`}
           style={{ transformStyle: "preserve-3d" }}
@@ -182,19 +183,12 @@ export const Hero = () => {
   const blur = useTransform(scrollY, [0, 400], ["blur(0px)", "blur(10px)"]);
 
   return (
-    <section className="relative h-screen z-0 bg-black">
+    <section className="relative h-screen z-0 bg-transparent">
       <CustomCursor />
       <motion.div 
         style={{ opacity, filter: blur }}
         className="fixed inset-0 flex flex-col items-center justify-center p-10 pointer-events-none"
       >
-        {/* Floating elements */}
-        <div className="absolute inset-0 pointer-events-none opacity-10">
-          <div className="absolute top-[15%] left-[5%] w-48 h-48 bg-white/10 rotate-12" />
-          <div className="absolute top-[10%] right-[10%] w-64 h-64 bg-white/5 -rotate-6" />
-          <div className="absolute bottom-[10%] left-[15%] w-40 h-40 bg-white/5 rotate-45" />
-          <div className="absolute bottom-[20%] right-[15%] w-56 h-56 bg-white/10 -rotate-12" />
-        </div>
 
         <div className="text-center z-10">
           <h1 className="text-4xl md:text-[5rem] font-black uppercase tracking-tighter whitespace-nowrap font-sans text-white leading-none">

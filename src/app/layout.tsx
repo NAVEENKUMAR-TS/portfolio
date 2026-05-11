@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   description: "Personal portfolio of NAVEENKUMAR T S",
 };
 
+import { SpaceBackground } from "@/components/SpaceBackground";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,9 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className={inter.className}>
+        <SpaceBackground />
         <LenisProvider>
           <Navbar />
-          <main>{children}</main>
+          <main className="bg-transparent">{children}</main>
         </LenisProvider>
       </body>
     </html>

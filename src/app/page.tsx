@@ -7,10 +7,9 @@ import {
   ContactPlaceholder 
 } from "@/components/sections";
 import Footer from "@/components/Footer";
-
 export default function Home() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       <Hero />
       <About />
       <TechStack />
