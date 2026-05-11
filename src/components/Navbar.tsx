@@ -13,13 +13,11 @@ export default function Navbar() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        setOpacity(0.05);
+      if (currentScrollY > 100) {
+        setOpacity(0);
       } else {
         setOpacity(1);
       }
-      
-      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -27,19 +25,42 @@ export default function Navbar() {
   }, [lastScrollY]);
 
   const navLinks = [
-    { name: 'ABOUT', href: '#hero' },
+    { name: 'ABOUT', href: '#about' },
     { name: 'TECH STACK', href: '#tech-stack' },
     { name: 'PROJECTS', href: '#projects' },
     { name: 'EXPERIENCE', href: '#experience' },
   ];
 
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    if (element && (window as any).lenis) {
+      (window as any).lenis.scrollTo(element, {
+        offset: 0,
+        duration: 2.2,
+      });
+    } else if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       <nav 
-        className="fixed top-0 left-0 w-full z-[100] px-10 py-8 flex justify-between items-center transition-opacity duration-500 pointer-events-none"
+        className={`fixed top-0 left-0 w-full z-[100] px-10 py-8 flex justify-between items-center transition-all duration-500 ${opacity === 0 ? 'pointer-events-none translate-y-[-20px]' : 'pointer-events-auto translate-y-0'}`}
         style={{ opacity }}
       >
-        <div className="pointer-events-auto">
+        <div 
+          className="pointer-events-auto cursor-pointer" 
+          onClick={() => {
+            if ((window as any).lenis) {
+              (window as any).lenis.scrollTo(0, { duration: 2.2 });
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }}
+        >
           <h1 className="text-sm font-bold tracking-[0.2em] uppercase" style={{ fontVariant: 'small-caps' }}>
             NAVEENKUMAR T S
           </h1>
@@ -50,6 +71,7 @@ export default function Navbar() {
             <a
               key={link.name}
               href={link.href}
+              onClick={(e) => handleScroll(e, link.href)}
               className="text-[10px] font-medium tracking-[0.1em] hover:opacity-50 transition-opacity"
             >
               {link.name}

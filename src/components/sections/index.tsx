@@ -1,9 +1,9 @@
 'use client';
-import { ReactNode, useRef, useState, useEffect } from 'react';
+import React, { ReactNode, useRef, useState, useEffect, FormEvent } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiGit, SiGithub, SiDocker, SiFigma, SiJavascript, SiSupabase } from 'react-icons/si';
-import { FaJava, FaPython } from 'react-icons/fa';
+import { FaJava, FaPython, FaCode, FaShieldAlt, FaEnvelope, FaLinkedin, FaGithub } from 'react-icons/fa';
 import { AntigravityIcon } from '../AntigravityIcon';
 
 const CustomCursor = () => {
@@ -379,34 +379,232 @@ export const Projects = () => (
   </PaperSection>
 );
 
-export const Experience = () => (
-  <PaperSection id="experience" title="Exp" number="04">
-    <div className="space-y-12">
-        <div className="flex justify-between items-start border-b border-black/10 pb-6">
-            <div>
-                <h3 className="text-2xl font-bold">Creative Developer</h3>
-                <p className="opacity-60">Freelance</p>
-            </div>
-            <p className="font-mono text-sm">2023 — Present</p>
+const ExperienceContent = () => {
+  const experiences = [
+    {
+      role: "FULL STACK DEVELOPER",
+      icon: <FaCode />,
+      organization: "INTERN PE",
+      duration: "1 MONTH",
+      description:
+        "Worked on modern web application development using frontend and backend technologies, focusing on responsive UI design, API integration, and scalable application architecture. Contributed to real-world projects while enhancing problem-solving and development skills.",
+    },
+    {
+      role: "CYBER SECURITY INTERN",
+      icon: <FaShieldAlt />,
+      organization: "ALFIDO TECH",
+      duration: "1 MONTH",
+      description:
+        "Worked on cybersecurity concepts and security-focused solutions, gaining hands-on experience in threat analysis, vulnerability assessment, and secure system practices. Focused on improving knowledge in network security, cyber threats, and protection mechanisms.",
+    },
+  ];
+
+  return (
+    <div className="flex flex-col text-black">
+      {experiences.map((exp, index) => (
+        <div
+          key={index}
+          className="border-b border-black/10 py-10 md:py-14 group"
+        >
+          {/* Row: Role | Org | Duration */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0">
+            {/* Left: Role Title */}
+            <h3 className="text-2xl md:text-[2vw] font-serif font-black uppercase leading-none tracking-tight flex items-center gap-3">
+              {exp.icon}
+              {exp.role}
+            </h3>
+
+            {/* Center: Organization */}
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] font-sans font-semibold opacity-80">
+              {exp.organization}
+            </span>
+
+            {/* Right: Duration */}
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] font-sans font-bold opacity-60 md:text-right">
+              {exp.duration}
+            </span>
+          </div>
+
+          {/* Description */}
+          <p className="mt-6 text-base md:text-lg opacity-60 leading-relaxed font-light max-w-[600px] md:ml-1">
+            {exp.description}
+          </p>
         </div>
-        <div className="flex justify-between items-start border-b border-black/10 pb-6">
-            <div>
-                <h3 className="text-2xl font-bold">UI/UX Designer</h3>
-                <p className="opacity-60">Agency X</p>
-            </div>
-            <p className="font-mono text-sm">2022 — 2023</p>
-        </div>
+      ))}
     </div>
+  );
+};
+
+export const Experience = () => (
+  <PaperSection id="experience" title="Experience" number="04" bgColor="bg-white" textColor="text-black">
+    <ExperienceContent />
   </PaperSection>
 );
 
-export const ContactPlaceholder = () => (
-  <PaperSection id="contact" title="Talk" number="05">
-    <div className="flex flex-col items-center justify-center h-full text-center py-20">
-        <h3 className="text-4xl md:text-6xl font-black uppercase mb-8">Let's build something<br/>extraordinary.</h3>
-        <a href="mailto:hello@naveenkumar.me" className="text-xl md:text-2xl underline underline-offset-8 hover:opacity-50 transition-opacity">
-            hello@naveenkumar.me
-        </a>
+interface ContactContentProps {
+  submitted: boolean;
+  isSending: boolean;
+  name: string;
+  email: string;
+  message: string;
+  setName: (v: string) => void;
+  setEmail: (v: string) => void;
+  setMessage: (v: string) => void;
+  handleSubmit: (e: FormEvent) => void;
+}
+
+const ContactSectionContent = ({ 
+  submitted, isSending, name, email, message, 
+  setName, setEmail, setMessage, handleSubmit 
+}: ContactContentProps) => {
+  const socialLinks = [
+    { name: 'LINKEDIN', href: 'https://www.linkedin.com/in/naveenkumar-t-s-143ab5329', icon: <FaLinkedin /> },
+    { name: 'GITHUB', href: 'https://github.com/NAVEENKUMAR-TS', icon: <FaGithub /> },
+    { name: 'EMAIL', href: 'mailto:tsnaveenkumar07@gmail.com', icon: <FaEnvelope /> },
+  ];
+
+  return (
+    <div className="flex flex-col md:flex-row w-full gap-16 md:gap-0 -mt-6">
+      {/* Left Panel — 60% */}
+      <div className="w-full md:w-[60%] md:pr-16 flex flex-col justify-center">
+        <h2 className="text-4xl md:text-[4vw] font-black uppercase leading-[0.95] tracking-tight text-black font-serif mb-6">
+          LET&apos;S CREATE<br />SOMETHING<br />REMARKABLE.
+        </h2>
+
+        <p className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-black opacity-40 font-sans font-bold mb-14">
+          WHETHER YOU HAVE A CLEAR VISION OR JUST A ROUGH IDEA, I&apos;M READY TO HELP YOU BUILD IT.
+        </p>
+
+        {!submitted ? (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-lg">
+            <input
+              type="text"
+              placeholder="YOUR NAME"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full bg-transparent border-b border-black/40 text-black text-base md:text-lg py-4 outline-none placeholder:text-black/60 placeholder:uppercase placeholder:tracking-[0.2em] placeholder:text-sm focus:border-black transition-colors font-sans"
+            />
+            <input
+              type="email"
+              placeholder="YOUR EMAIL"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-transparent border-b border-black/40 text-black text-base md:text-lg py-4 outline-none placeholder:text-black/60 placeholder:uppercase placeholder:tracking-[0.2em] placeholder:text-sm focus:border-black transition-colors font-sans"
+            />
+            <textarea
+              placeholder="YOUR IDEA OR MESSAGE..."
+              rows={2}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="w-full bg-transparent border-b border-black/40 text-black text-base md:text-lg pt-4 pb-2 outline-none placeholder:text-black/60 placeholder:uppercase placeholder:tracking-[0.2em] placeholder:text-sm focus:border-black transition-colors resize-none font-sans"
+            />
+            <button
+              type="submit"
+              disabled={isSending}
+              className="self-start group relative text-black text-sm md:text-base font-bold uppercase tracking-[0.2em] py-3 mt-2 disabled:opacity-50"
+            >
+              <span>{isSending ? "SENDING..." : "SEND IT →"}</span>
+              <span className="absolute bottom-1 left-0 h-[1px] bg-black w-0 group-hover:w-full transition-all duration-500 ease-out" />
+            </button>
+          </form>
+        ) : (
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-xl md:text-2xl font-bold uppercase tracking-[0.15em] text-black opacity-80"
+          >
+            MESSAGE SENT. I&apos;LL BE IN TOUCH.
+          </motion.p>
+        )}
+      </div>
+
+      {/* Right Panel — 40% */}
+      <div className="w-full md:w-[40%] flex flex-col justify-center md:pl-16 md:border-l border-black/10">
+        <p className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-black opacity-40 font-sans font-bold mb-10">
+          FIND ME ON
+        </p>
+
+        <div className="flex flex-col gap-6">
+          {socialLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-4 text-black transition-all duration-300 hover:translate-x-3"
+            >
+              <span className="text-xl opacity-70 group-hover:opacity-100 transition-opacity">{link.icon}</span>
+              <span className="relative text-2xl md:text-[2vw] font-black uppercase tracking-tight font-serif leading-none">
+                {link.name}
+                <span className="absolute bottom-0 left-0 h-[2px] bg-black w-0 group-hover:w-full transition-all duration-500 ease-out" />
+              </span>
+              <span className="text-sm opacity-50 font-sans">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
-  </PaperSection>
-);
+  );
+};
+
+export const ContactPlaceholder = () => {
+  const [submitted, setSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !message.trim()) return;
+    
+    setIsSending(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "b5e2e7c1-48b8-4deb-a1bd-149e5a45a619",
+          name: name,
+          email: email,
+          message: message,
+          from_name: "Portfolio Contact Section",
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        console.error("Error sending message:", result);
+        alert("Something went wrong. Please try again or use the email link on the right.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error sending message. Please check your connection.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  return (
+    <PaperSection id="contact" title="CONTACT" number="05" bgColor="bg-white" textColor="text-black">
+      <ContactSectionContent 
+        submitted={submitted}
+        isSending={isSending}
+        name={name}
+        email={email}
+        message={message}
+        setName={setName}
+        setEmail={setEmail}
+        setMessage={setMessage}
+        handleSubmit={handleSubmit}
+      />
+    </PaperSection>
+  );
+};

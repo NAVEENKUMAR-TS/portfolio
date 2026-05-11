@@ -12,7 +12,7 @@ interface LenisProviderProps {
 export default function LenisProvider({ children }: LenisProviderProps) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.5,
+      duration: 2.2,
       lerp: 0.05,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
@@ -22,6 +22,9 @@ export default function LenisProvider({ children }: LenisProviderProps) {
       touchMultiplier: 2,
       infinite: false,
     });
+
+    // Expose lenis to window for global access (like Navbar)
+    (window as any).lenis = lenis;
 
     // Connect Lenis to GSAP ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
@@ -36,6 +39,7 @@ export default function LenisProvider({ children }: LenisProviderProps) {
 
     return () => {
       lenis.destroy();
+      (window as any).lenis = null;
       gsap.ticker.remove((time) => {
         lenis.raf(time * 1000);
       });
